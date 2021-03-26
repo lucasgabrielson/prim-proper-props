@@ -45,7 +45,6 @@ function App() {
       })
   };
 
-
   const handleSubmit = (event) => {
     event.preventDefault();
     if (newGuestName) {
@@ -54,6 +53,18 @@ function App() {
     else {
       alert('The new guest needs a name!');
     }
+  }
+
+  const deleteGuest = ( id ) => {
+    console.log( 'in deleteGuest with:', id);
+    axios.delete( '/guests/' + id )
+      .then( response => {
+        console.log( 'back from DELETE with ', response);
+        getGuests();
+      }).catch( err => {
+        console.log( err );
+        alert( 'error deleting guest' );
+      })
   }
 
   console.log(newGuestMeal)
@@ -68,7 +79,7 @@ function App() {
         setNewGuestMeal={setNewGuestMeal}
         handleSubmit={handleSubmit}
       />
-      <GuestList guestList = { guestList } />
+      <GuestList guestList = { guestList } onDelete = { deleteGuest } />
       <DinnerSupplies guestList = { guestList } />
       <Footer />
     </div>

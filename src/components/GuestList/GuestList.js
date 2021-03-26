@@ -1,3 +1,5 @@
+import { FaTimes } from 'react-icons/fa'
+
 function GuestList( props ) {
     return (
         <>
@@ -14,6 +16,7 @@ function GuestList( props ) {
                             <tr key={guest.id}>
                                 <td>{guest.name}</td>
                                 <td>{String(guest.kidsMeal)}</td>
+                                <td><FaTimes onClick = { () => props.onDelete( guest.id ) } style = {{ color: 'red', cursor: 'pointer'}} /></td>
                             </tr>
                         ))}
                     </tbody>

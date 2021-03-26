@@ -22,8 +22,7 @@ router.get('/', (req, res) => {
 // Setup a POST route to add a new guest to the database
 router.post('/', (req, res) => {
     const guest = req.body;
-    const sqlText = `INSERT INTO guests ("name", "kidsMeal")
-                     VALUES ($1, $2)`;
+    const sqlText = `INSERT INTO guests ("name", "kidsMeal") VALUES ($1, $2)`;
     // Let sql sanitize your inputs (NO Bobby Drop Tables here!)
     // the $1, $2, etc get substituted with the values from the array below
     pool.query(sqlText, [guest.name, guest.kidsMeal])
@@ -37,5 +36,19 @@ router.post('/', (req, res) => {
         })
 })
 
+// DELETE route
+router.delete( '/:id', ( req, res ) => {
+    console.log( 'in DELETE route', req.params );
+    let sqlText = `DELETE FROM guests WHERE "id" = $1`;
+    pool.query( sqlText, [ req.params.id ] )
+        .then( results => {
+            console.log( 'Deleted guest from the database' );
+            res.sendStatus( 200 );
+        }).catch( err => {
+            console.log( 'Error deleting guest from the database' );
+            res.sendStatus( 500 );
+        })
+
+})
 
 module.exports = router;
